@@ -27,5 +27,15 @@ namespace Magnus\Schema {
 
 	}
 
-	
+	class Always extends Validator {
+		/* Always pass validation.
+		 *
+		 * Primarily useful to replace other validators for debugging purposes
+		 */
+
+		public function validate($value = null, $context = null) {
+			return $value;
+		}
+
+	}
 }

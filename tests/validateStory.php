@@ -33,4 +33,16 @@ Scenario: Validating a base Validator
 	The validation should succeed, providing the value back:
 	<?= printEval($validatedValue == 'foo'); ?>
 
+
+Scenario: Creating an Always Validator
+
+	Given an initialized Always with no arguments:
+	<?php $validator = new Magnus\Schema\Always(); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should succeed, providing the value back:
+	<?= printEval($validatedValue == 'foo'); ?>
+
 <?= "\n\n" ?>

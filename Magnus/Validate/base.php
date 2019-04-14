@@ -50,5 +50,33 @@ namespace Magnus\Schema {
 		}
 
 	}
-	
+
+	class AlwaysTruthy extends Validator {
+		// Value must always be truthy.
+
+		public function validate($value, $context = null) {
+			
+			if ((bool) $value) {
+				return $value;
+			}
+
+			return new Concern("Value is missing or empty");
+		}
+
+	}
+
+	class AlwaysFalsy extends Validator {
+		// Value must always be falsy.
+
+		public function validate($value, $context = null) {
+
+			if ((bool) $value) {
+				return new Concern("Value should be falsy.");
+			}
+
+			return $value;
+		}
+		
+	}
+
 }

@@ -5,9 +5,11 @@ namespace Magnus {
 		$packageDirectory = __DIR__;
 
 		$packageClassMap = array(
-			'Magnus\\Schema\\Validator' => '/Magnus/Validate/base.php',
-			'Magnus\\Schema\\Always'    => '/Magnus/Validate/base.php',
-			'Magnus\\Schema\\Concern'   => '/Magnus/error.php'
+			'Magnus\\Schema\\Validator'    => '/Magnus/Validate/base.php',
+			'Magnus\\Schema\\Always'       => '/Magnus/Validate/base.php',
+			'Magnus\\Schema\\AlwaysTruthy' => '/Magnus/Validate/base.php',
+			'Magnus\\Schema\\AlwaysFalsy'  => '/Magnus/Validate/base.php',
+			'Magnus\\Schema\\Concern'      => '/Magnus/error.php'
 		);
 
 		if (isset($packageClassMap[$className])) {

@@ -21,4 +21,16 @@ Scenario: Creating a Validator
 	The initialization should succeed:
 	<?= printEval(get_class($validator) == 'Magnus\\Schema\\Validator') ?>
 
-	<?= "\n\n" ?>
+
+Scenario: Validating a base Validator
+
+	Given an initialized Validator with no arguments:
+	<?php $validator = new Magnus\Schema\Validator(); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should succeed, providing the value back:
+	<?= printEval($validatedValue == 'foo'); ?>
+
+<?= "\n\n" ?>

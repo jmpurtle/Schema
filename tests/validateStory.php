@@ -45,4 +45,19 @@ Scenario: Creating an Always Validator
 	The validation should succeed, providing the value back:
 	<?= printEval($validatedValue == 'foo'); ?>
 
+
+Scenario: Creating a Never Validator
+
+	Given an initialized Never with no arguments:
+	<?php $validator = new Magnus\Schema\Never(); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should fail, providing a Concern back:
+	<?= printEval(get_class($validatedValue) == 'Magnus\\Schema\\Concern'); ?>
+
+	And when turned into a string, the concern should state 'Set to always fail.':
+	<?= printEval((string) $validatedValue == 'Set to always fail.') ?>
+
 <?= "\n\n" ?>

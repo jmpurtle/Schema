@@ -38,4 +38,17 @@ namespace Magnus\Schema {
 		}
 
 	}
+
+	class Never extends Validator {
+		/* Never pass validation.
+		 *
+		 * Primarily useful to replace other validators for debugging purposes
+		 */
+
+		public function validate($value = null, $context = null) {
+			return new Concern("Set to always fail.");
+		}
+
+	}
+	
 }

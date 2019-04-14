@@ -6,7 +6,8 @@ namespace Magnus {
 
 		$packageClassMap = array(
 			'Magnus\\Schema\\Validator' => '/Magnus/Validate/base.php',
-			'Magnus\\Schema\\Always'    => '/Magnus/Validate/base.php'
+			'Magnus\\Schema\\Always'    => '/Magnus/Validate/base.php',
+			'Magnus\\Schema\\Concern'   => '/Magnus/error.php'
 		);
 
 		if (isset($packageClassMap[$className])) {

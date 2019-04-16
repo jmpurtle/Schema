@@ -92,7 +92,7 @@ Scenario: Validating with AlwaysTruthy:
 
 Scenario: Validating with AlwaysFalsy:
 
-	Given an initialized AlwaysTruthy with no arguments:
+	Given an initialized AlwaysFalsy with no arguments:
 	<?php $validator = new Magnus\Schema\AlwaysFalsy(); ?>
 
 	When validated:
@@ -111,5 +111,42 @@ Scenario: Validating with AlwaysFalsy:
 		}
 		echo printEval($status);
 	?>
+
+
+Scenario: Validating with AlwaysRequired:
+
+	Given an initialized AlwaysRequired with no arguments:
+	<?php $validator = new Magnus\Schema\AlwaysRequired(); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should succeed, providing the value back:
+	<?= printEval($validatedValue == 'foo'); ?>
+
+	And validated against empty values should fail with Concerns:
+	Given Null:
+	<?php $validatedValue = $validator->validate(null); ?>
+
+	Fails with "Value is required, but none was provided.":
+	<?= printEval((string) $validatedValue == 'Value is required, but none was provided.') ?>
+
+	Given empty string:
+	<?php $validatedValue = $validator->validate(''); ?>
+
+	Fails with "Value is required, but provided value is empty.":
+	<?= printEval((string) $validatedValue == 'Value is required, but provided value is empty.') ?>
+
+	Given empty array:
+	<?php $validatedValue = $validator->validate(array()); ?>
+
+	Fails with "Value is required, but provided value is empty.":
+	<?= printEval((string) $validatedValue == 'Value is required, but provided value is empty.') ?>
+
+	Given 0:
+	<?php $validatedValue = $validator->validate(0); ?>
+
+	The validation should succeed, providing the value back:
+	<?= printEval($validatedValue === 0); ?>
 
 <?= "\n\n" ?>

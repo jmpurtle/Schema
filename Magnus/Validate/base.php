@@ -76,7 +76,25 @@ namespace Magnus\Schema {
 
 			return $value;
 		}
-		
+
+	}
+
+	class AlwaysRequired extends Validator {
+		// A value must always be provided
+
+		public function validate($value, $context = null) {
+			if ($value === null) {
+				return new Concern("Value is required, but none was provided.");
+			}
+
+			if (is_string($value) && !strlen($value)) {
+				return new Concern("Value is required, but provided value is empty.");
+			} elseif (is_array($value) && count($value) == 0) {
+				return new Concern("Value is required, but provided value is empty.");
+			}
+
+			return $value;
+		}
 	}
 
 }

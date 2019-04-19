@@ -186,4 +186,37 @@ Scenario: Validating with AlwaysMissing:
 	The validation should fail with "Value must be omitted, but value was provided.":
 	<?= printEval((string) $validatedValue == "Value must be omitted, but value was provided."); ?>
 
+
+Scenario: Validating with In:
+
+	Given an initialized In with no arguments:
+	<?php $validator = new Magnus\Schema\In(); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should fail with "Value cannot exist in empty set.":
+	<?= printEval((string) $validatedValue == "Value cannot exist in empty set."); ?>
+
+	Given an initialized In with choices:
+	<?php $validator = new Magnus\Schema\In(array('choices' => array('foo', 'baz' => 'thud'))); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should succeed, returning 'foo':
+	<?= printEval($validatedValue == 'foo') ?>
+
+	When validated with a value that shouldn't exist:
+	<?php $validatedValue = $validator->validate('bar'); ?>
+
+	The validation should fail with "Value is not in allowed list.":
+	<?= printEval((string) $validatedValue == "Value is not in allowed list.") ?>
+
+	When validated with a value inside a label-value pair:
+	<?php $validatedValue = $validator->validate('thud'); ?>
+
+	The validation should succeed, returning 'thud':
+	<?= printEval($validatedValue == 'thud') ?>
+
 <?= "\n\n" ?>

@@ -11,6 +11,13 @@ namespace Magnus\Schema {
 		 * simple validators.
 		 */
 
+		public $kwargs;
+
+		public function __construct(Array $kwargs = array()) {
+			$this->kwargs = $kwargs;
+			$this->loadAttributes();
+		}
+
 		public function validate($value, $context = null) {
 			/* Attempt to validate the given value.
 			 * 
@@ -23,6 +30,27 @@ namespace Magnus\Schema {
 			 */
 
 			return $value;
+		}
+
+		public function __get($name) {
+			if (array_key_exists($this->name, $this->kwargs)) {
+				return $this->kwargs[$this->name];
+			}
+
+			return null;
+		}
+
+		public function loadAttributes() {
+
+			$objVars = array_keys(get_object_vars($this));
+
+			foreach ($objVars as $attr) {
+				if (isset($this->kwargs[$attr])) {
+					$this->$attr = $this->kwargs[$attr];
+					unset($this->kwargs[$attr]);
+				}
+			}
+
 		}
 
 	}
@@ -114,7 +142,30 @@ namespace Magnus\Schema {
 
 			return new Concern("Value must be omitted, but value was provided.");
 		}
-		
+
+	}
+
+	class In extends Validator {
+		/* Value must be contained within the provided iterable.
+		 *
+		 * The iterable may either be a regular array filled with values or an
+		 * associative array indicating labels and values
+		 */
+
+		public $choices;
+
+		public function validate($value, $context = null) {
+			if (!$this->choices) {
+				return new Concern("Value cannot exist in empty set.");
+			}
+
+			if (!in_array($value, $this->choices)) {
+				return new Concern("Value is not in allowed list.");
+			}
+
+			return $value;
+		}
+
 	}
 
 }

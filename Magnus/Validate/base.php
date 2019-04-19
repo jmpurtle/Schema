@@ -95,6 +95,26 @@ namespace Magnus\Schema {
 
 			return $value;
 		}
+
+	}
+
+	class AlwaysMissing extends Validator {
+		// A value must not be provided
+
+		public function validate($value, $context = null) {
+			if ($value === null) {
+				return $value;
+			}
+
+			if (is_string($value) && !strlen($value)) {
+				return $value;
+			} elseif (is_array($value) && count($value) == 0) {
+				return $value;
+			}
+
+			return new Concern("Value must be omitted, but value was provided.");
+		}
+		
 	}
 
 }

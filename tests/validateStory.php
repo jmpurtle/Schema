@@ -149,4 +149,41 @@ Scenario: Validating with AlwaysRequired:
 	The validation should succeed, providing the value back:
 	<?= printEval($validatedValue === 0); ?>
 
+
+Scenario: Validating with AlwaysMissing:
+
+	Given an initialized AlwaysMissing with no arguments:
+	<?php $validator = new Magnus\Schema\AlwaysMissing(); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should fail with "Value must be omitted, but value was provided.":
+	<?= printEval((string) $validatedValue == "Value must be omitted, but value was provided."); ?>
+
+	And validated against missing values should succeed:
+	Given Null:
+	<?php $validatedValue = $validator->validate(null); ?>
+
+	And succeeds, returning null:
+	<?= printEval($validatedValue === null) ?>
+
+	Given empty string:
+	<?php $validatedValue = $validator->validate(''); ?>
+
+	Succeeds with an empty string:
+	<?= printEval($validatedValue == '') ?>
+
+	Given empty array:
+	<?php $validatedValue = $validator->validate(array()); ?>
+
+	Succeeds with empty array:
+	<?= printEval($validatedValue == array()) ?>
+
+	Given 0:
+	<?php $validatedValue = $validator->validate(0); ?>
+
+	The validation should fail with "Value must be omitted, but value was provided.":
+	<?= printEval((string) $validatedValue == "Value must be omitted, but value was provided."); ?>
+
 <?= "\n\n" ?>

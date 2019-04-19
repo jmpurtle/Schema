@@ -12,6 +12,7 @@ namespace Magnus {
 			'Magnus\\Schema\\AlwaysRequired' => '/Magnus/Validate/base.php',
 			'Magnus\\Schema\\AlwaysMissing'  => '/Magnus/Validate/base.php',
 			'Magnus\\Schema\\In'             => '/Magnus/Validate/base.php',
+			'Magnus\\Schema\\Contains'       => '/Magnus/Validate/base.php',
 			'Magnus\\Schema\\Concern'        => '/Magnus/error.php'
 		);
 

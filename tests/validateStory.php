@@ -219,4 +219,28 @@ Scenario: Validating with In:
 	The validation should succeed, returning 'thud':
 	<?= printEval($validatedValue == 'thud') ?>
 
+
+Scenario: Validating with Contains:
+
+	Given an initialized Contains with contains:
+	<?php $validator = new Magnus\Schema\Contains(array('contains' => 'foo')); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo bar baz'); ?>
+
+	The validation should succeed, returning the value:
+	<?= printEval($validatedValue == 'foo bar baz'); ?>
+
+	When validated with a value that shouldn't be contained:
+	<?php $validatedValue = $validator->validate('thud qux'); ?>
+
+	The validation should fail with "Value does not contain foo.":
+	<?= printEval((string) $validatedValue == "Value does not contain foo.") ?>
+
+	When validating an array:
+	<?php $validatedValue = $validator->validate(array('foo', 'bar', 'baz')); ?>
+
+	The validation should succeed, returning the value:
+	<?= printEval($validatedValue == array('foo', 'bar', 'baz')); ?>
+
 <?= "\n\n" ?>

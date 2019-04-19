@@ -168,4 +168,31 @@ namespace Magnus\Schema {
 
 	}
 
+	class Contains extends Validator {
+		// Value being validated must contain the given value
+
+		public $contains;
+
+		public function validate($value, $context = null) {
+			if (is_array($value)) {
+				if (array_key_exists($this->contains, $value)) {
+					return $value;
+				}
+
+				if (in_array($this->contains, $value)) {
+					return $value;
+				}
+			}
+
+			if (is_string($value)) {
+				if (strpos($value, $this->contains) !== false) {
+					return $value;
+				}
+			}
+
+			return new Concern("Value does not contain {$this->contains}.");
+		}
+
+	}
+
 }

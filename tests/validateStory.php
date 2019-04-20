@@ -243,4 +243,175 @@ Scenario: Validating with Contains:
 	The validation should succeed, returning the value:
 	<?= printEval($validatedValue == array('foo', 'bar', 'baz')); ?>
 
+
+Scenario: Validating with Length:
+
+	Given an initialized Length with no arguments:
+	<?php $validator = new Magnus\Schema\Length(); ?>
+
+	When validated:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should succeed due to no restrictions, returning 'foo':
+	<?= printEval($validatedValue == 'foo'); ?>
+
+	Given an initialized Length with a minimum defined:
+	<?php $validator = new Magnus\Schema\Length(array('min' => 5)); ?>
+
+	When validated with a string too short:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should fail with "Too small; must be greater than 5.":
+	<?= printEval((string) $validatedValue == "Too small; must be greater than 5."); ?>
+
+	When validated with an array too short:
+	<?php $validatedValue = $validator->validate(array('foo')); ?>
+
+	The validation should fail with "Too small; must be greater than 5.":
+	<?= printEval((string) $validatedValue == "Too small; must be greater than 5."); ?>
+
+	When validated with a string at the minimum length:
+	<?php $validatedValue = $validator->validate('house'); ?>
+
+	The validation should succeed, returning "house":
+	<?= printEval($validatedValue == 'house'); ?>
+
+	When validated with an array at the minimum length:
+	<?php $validatedValue = $validator->validate(array(1,2,3,4,5)) ?>
+
+	The validation should succeed, returning the given array:
+	<?= printEval($validatedValue == array(1,2,3,4,5)) ?>
+
+	Given an initialized Length with a maximum defined:
+	<?php $validator = new Magnus\Schema\Length(array('max' => 5)); ?>
+
+	When validated with a string too long:
+	<?php $validatedValue = $validator->validate('foobar'); ?>
+
+	The validation should fail with "Too large; must be less than 5.":
+	<?= printEval((string) $validatedValue == "Too large; must be less than 5."); ?>
+
+	When validated with an array too long:
+	<?php $validatedValue = $validator->validate(array(1,2,3,4,5,6)); ?>
+
+	The validation should fail with "Too large; must be less than 5.":
+	<?= printEval((string) $validatedValue == "Too large; must be less than 5."); ?>
+
+	When validated with a string at the maximum length:
+	<?php $validatedValue = $validator->validate('house'); ?>
+
+	The validation should succeed, returning "house":
+	<?= printEval($validatedValue == 'house'); ?>
+
+	When validated with an array at the maximum length:
+	<?php $validatedValue = $validator->validate(array(1,2,3,4,5)) ?>
+
+	The validation should succeed, returning the given array:
+	<?= printEval($validatedValue == array(1,2,3,4,5)) ?>
+
+	Given an initialized Length with a minimum and maximum defined:
+	<?php $validator = new Magnus\Schema\Length(array('min' => 3, 'max' => 5)); ?>
+
+	When validated with a string too short:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should fail with "Out of bounds; must be greater than 3 and less than 5.":
+	<?= printEval((string) $validatedValue == "Out of bounds; must be greater than 3 and less than 5."); ?>
+
+	When validated with an array too short:
+	<?php $validatedValue = $validator->validate(array('foo')); ?>
+
+	The validation should fail with "Out of bounds; must be greater than 3 and less than 5.":
+	<?= printEval((string) $validatedValue == "Out of bounds; must be greater than 3 and less than 5."); ?>
+
+	When validated with a string too long:
+	<?php $validatedValue = $validator->validate('foobar'); ?>
+
+	The validation should fail with "Out of bounds; must be greater than 3 and less than 5.":
+	<?= printEval((string) $validatedValue == "Out of bounds; must be greater than 3 and less than 5."); ?>
+
+	When validated with an array too long:
+	<?php $validatedValue = $validator->validate(array(1,2,3,4,5,6)); ?>
+
+	The validation should fail with "Out of bounds; must be greater than 3 and less than 5.":
+	<?= printEval((string) $validatedValue == "Out of bounds; must be greater than 3 and less than 5."); ?>
+
+	When validated with a string at the minimum length:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should succeed, returning "foo":
+	<?= printEval($validatedValue == 'foo'); ?>
+
+	When validated with an array at the minimum length:
+	<?php $validatedValue = $validator->validate(array(1,2,3)) ?>
+
+	The validation should succeed, returning the given array:
+	<?= printEval($validatedValue == array(1,2,3)) ?>
+
+	When validated with a string at the maximum length:
+	<?php $validatedValue = $validator->validate('house'); ?>
+
+	The validation should succeed, returning "house":
+	<?= printEval($validatedValue == 'house'); ?>
+
+	When validated with an array at the maximum length:
+	<?php $validatedValue = $validator->validate(array(1,2,3,4,5)) ?>
+
+	The validation should succeed, returning the given array:
+	<?= printEval($validatedValue == array(1,2,3,4,5)) ?>
+
+	Given an initialized Length with a step defined:
+	<?php $validator = new Magnus\Schema\Length(array('step' => 2)); ?>
+
+	When validated with a string onstep:
+	<?php $validatedValue = $validator->validate('on'); ?>
+
+	The validation should succeed, returning "on":
+	<?php printEval($validatedValue == 'on'); ?>
+
+	When validated with a string offstep:
+	<?php $validatedValue = $validator->validate('foo'); ?>
+
+	The validation should fail with "Offstep; must follow a step of 2.":
+	<?= printEval((string) $validatedValue == "Offstep; must follow a step of 2."); ?>
+
+	When validated with an array onstep:
+	<?php $validatedValue = $validator->validate(array(1,2)); ?>
+
+	The validation should succeed, returning the given array:
+	<?php printEval($validatedValue == array(1,2)); ?>
+
+	When validated with an array offstep:
+	<?php $validatedValue = $validator->validate(array(1)); ?>
+
+	The validation should fail with "Offstep; must follow a step of 2.":
+	<?= printEval((string) $validatedValue == "Offstep; must follow a step of 2."); ?>
+
+	Given an initialized Length with a step and a minimum defined:
+	<?php $validator = new Magnus\Schema\Length(array('min' => 1, 'step' => 2)); ?>
+
+	When validated with a string onstep:
+	<?php $validatedValue = $validator->validate('one'); ?>
+
+	The validation should succeed, returning "one":
+	<?php printEval($validatedValue == 'one'); ?>
+
+	When validated with a string offstep:
+	<?php $validatedValue = $validator->validate('on'); ?>
+
+	The validation should fail with "Offstep; must follow a step of 2.":
+	<?= printEval((string) $validatedValue == "Offstep; must follow a step of 2."); ?>
+
+	When validated with an array onstep:
+	<?php $validatedValue = $validator->validate(array(1,2,3)); ?>
+
+	The validation should succeed, returning the given array:
+	<?php printEval($validatedValue == array(1,2,3)); ?>
+
+	When validated with an array offstep:
+	<?php $validatedValue = $validator->validate(array(1,2)); ?>
+
+	The validation should fail with "Offstep; must follow a step of 2.":
+	<?= printEval((string) $validatedValue == "Offstep; must follow a step of 2."); ?>
+
 <?= "\n\n" ?>

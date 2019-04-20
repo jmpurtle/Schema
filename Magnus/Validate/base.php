@@ -195,4 +195,52 @@ namespace Magnus\Schema {
 
 	}
 
+	class Length extends Validator {
+		/* Ensures the value has a length within the given range.
+		 *
+		 * The defined length may represent an integer maximum length or be an
+		 * array defining min, max, step.
+		 *
+		 * For example, array('min' => 2, 'max' => 10, 'step' => 2) would test
+		 * that the value is 2, 4, 6, 8 or 10 segments long.
+		 */
+
+		public $min;
+		public $max;
+		public $step;
+
+		public function validate($value, $context = null) {
+
+			$length = null;
+			if (is_string($value)) {
+				$length = strlen($value);
+			}
+
+			if (is_array($value)) {
+				$length = count($value);
+			}
+
+			if ($length === null) {
+				return new Concern("Value's length cannot be measured.");
+			}
+
+			if ($this->min && $this->max && !(($this->min <= $length) && ($length <= $this->max))) {
+				return new Concern("Out of bounds; must be greater than {$this->min} and less than {$this->max}.");
+			} elseif ($this->min && ($length < $this->min)) {
+				return new Concern("Too small; must be greater than {$this->min}.");
+			} elseif ($this->max && ($length > $this->max)) {
+				return new Concern("Too large; must be less than {$this->max}.");
+			}
+
+			if ($this->step) {
+				if ($this->min) { $length = $length - $this->min; }
+				if (($length % $this->step) !== 0) {
+					return new Concern("Offstep; must follow a step of {$this->step}.");
+				}
+			}
+
+			return $value;
+		}
+	}
+
 }
